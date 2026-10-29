@@ -1,148 +1,116 @@
 # Himeko-YanRuoWeiYan
-## YanRuoWeiYan Protocol - Open Source Cognitive OS / Book: WeiYan (Unsaid)
+## YanRuoWeiYan Protocol - v0.1.1 Pilot
 
 The first step of Human-AI Alignment is not to see through each other, but to learn respectful blank space.
 
-[License: MIT](https://opensource.org/licenses/MIT) | [Release: v0.1.0](https://github.com/Himeko-CodeGeass/Himeko-YanRuoWeiYan) | [Protocol: YanRuoWeiYan] | [Book: WeiYan]
+[Release: v0.1.1-pilot] | [Status: Early Prototype, n=1] | [License: Polyform Noncommercial + Commercial] | [Book: WeiYan (Unsaid)]
 
-### 1. Initial Verification - Real Data (2026-10-27)
-Not theory, real captured digital exhaust
+### 1. What This Is (and Is Not)
+This is a **pilot prototype** for pre-send hesitation, not a standard.
+
+Case Study - 2026-10-27:
+- 1 user, 1 session, 4 pauses observed, longest 5213ms
+- Input method: Chinese Zhuyin (注音). Pauses include IME candidate selection, not necessarily anxiety.
+- This is NOT "The 5.2s Standard". 5213ms is an observed data point, not a universal threshold.
 
 ```json
 {
-  "meta": { "version": "himeko-cognitive-os v0.1.0", "mode": "Non-Invasive Intent Gestalt" },
-  "typing_pauses": [
-    {"duration_ms": 1035, "context_tail": "_我要"},
-    {"duration_ms": 1658, "context_tail": "要過"},
-    {"duration_ms": 2168, "context_tail": "要過嗎"},
-    {"duration_ms": 5213, "context_tail": "要過嗎_"}
-  ],
+  "meta": { "version": "v0.1.1-pilot", "n": 1 },
+  "typing_pauses": [1035, 1658, 2168, 5213],
   "deletion_count": 4,
-  "longest_pause_ms": 5213,
-  "anxiety_score": 60,
-  "cognitive_buffer_field": { "state": "absorbing", "label": "Absorbing anxiety." },
-  "intent_gestalt": "hesitation_detected -> do not interrogate"
+  "anxiety_score_heuristic": 60
 }
 ```
 
-### 2. Why Himeko?
-- Full transparency creates conflict: forcing privacy disclosure causes more defensiveness
-- Full concealment creates isolation: feigned empathy results in false harmony
-- **Third path: Non-Invasive Intent Gestalt + Cognitive Buffer Field**
+**anxiety_score: How it is calculated (heuristic, not clinical)**
+`score = clamp( w1 * log(longest_pause) + w2 * deletion_rate )`
+w1=0.6, w2=0.4 in this pilot. No clinical validation, error bars unknown. 
+Full algorithm and limitations will be in `/docs/anxiety_score.md`. We will publish a multi-user study before claiming anything.
 
-### 3. Core Architecture
-- `core/` - Intent Gestalt Engine (pause, deletion, anxiety_score, absorbing)
-- `api/` - Protocol layer for LINE / Slack / Notion
-- `examples/typing_demo.py` - Verified Demo
+### 2. Core Principle: User-Owned Buffer, Not Surveillance
+We noticed a contradiction in v0.1.0: claiming "non-invasive" while capturing deleted text.
 
-### 4. Quick Start
+v0.1.1 fix:
+- **On-device only**: All pause/deletion data stays on device, never uploaded
+- **Opt-in**: Feature is OFF by default, user must enable
+- **No log of deleted content**: We store *that* a deletion happened (count + timing), not *what* was deleted, unless user explicitly opts into content logging
+- **Purgeable**: One click to delete local buffer
+- If we cannot guarantee the above, we do not ship the feature.
+
+### 3. Scope v0.1.1: One Scenario Only
+**Pre-send hesitation in messaging: "Should I send this?"**
+
+We are focusing on writing/IM first. Not defense, drones, space, or mental health crisis detection. Those are moved to speculative ideas in `/docs/future_research_ideas.md` and are not claimed as validated use cases.
+
+### 4. Architecture
+- `core/` - pause timer, deletion counter (no content logger by default)
+- `examples/typing_demo.py` - local demo
+- `docs/` - methodology, limitations, future ideas
+
+### 5. Quick Start
 ```bash
 git clone https://github.com/Himeko-CodeGeass/Himeko-YanRuoWeiYan
-python typing_demo.py
+cd Himeko-YanRuoWeiYan
+python examples/typing_demo.py
 ```
 
-### 5. License
-MIT License - Free for personal and open-source, commercial license required for closed-source commercial use
+### 6. License - Changed in v0.1.1
+**Why changed:** MIT allows free commercial use, so "MIT but pay for commercial" is legally conflicting.
 
-### 6. 💰 Commercial License - Tingmo Creative
-**Personal / Open-source: MIT - Free**
-**Commercial: NT$32,000 / ~$999 USD**
-👉 **Buy:** https://tingmocreative.lemonsqueezy.com/checkout/buy/5d845d7e-6c55-4b27-9481-d06c62c776ff
+- **Code v0.1.1 and after: Polyform Noncommercial 1.0.0**
+  - Free for personal use, research, non-commercial open-source
+  - Commercial use requires a separate Commercial License
+- **Code before v0.1.0 (commits <=123): Still MIT** as originally published
+- **Commercial License: Tingmo Creative**
+  - For closed-source products, includes support
+  - Buy: https://tingmocreative.lemonsqueezy.com/checkout/buy/5d845d7e-6c55-4b27-9481-d06c62c776ff
+
 Contact: jizheng.contact@proton.me
 
-### 7. Applicable Domains - Rigorously Researched (v0.1 Protocol Applicability)
-
-Core of v0.1 is **5.2-second human insurance before high-stakes decisions**, capturing:
-`5213ms pause` = Intent Gestalt rupture | `deletion/retyping` = intent revision trace | `anxiety_score` = anxiety metric | `absorbing` = cognitive buffer
-
-Rigorously researched applicable domains:
-
-**Defense / Military Command**: Commander's 5.2s pause and deletion before ROE decision is key signal to avoid friendly fire. C2 research shows cognitive overload requires heads-up management.
-
-**Drones / Drone Swarm**: 1 human managing 200 drones, operator hesitation hovering over cancel before launch is meaningful human control gap. Research shows stress is physiologically measurable, intent ambiguity needs capture.
-
-**Agriculture / Precision Farming**: Farmer hesitation in crop selection and spraying timing, hesitates even with useful tools due to lack of support. Notion Five Hubs Potential capture reduces rework.
-
-**Weather Forecasting / Disaster**: Forecaster hesitation exploration before warning issuance, public pre-disaster milling hesitation, earthquake early warning only 5-60 seconds, hesitation causes casualties.
-
-**Legal / Contract Review**: Lawyer deleting liability cap clause is risk foresight, legal tech market $29.2B in 2025, CLM 38%.
-
-**Education / Adaptive Learning**: Student false mastery - correct answer but deleted between A/C 3 times for 5.2s is confusion not mastery. Research shows 0.5-1s hesitation + 1-5s contemplation as cognitive load indicator.
-
-**Gaming / Interactive Narrative**: Games log what was chosen, not how. Moral choice pause 5.2s proves caring, NPC should absorb this hesitation for immersion.
-
-**Autonomous Vehicles / L3 Takeover**: Driver HAI anxiety, hands on wheel but mind absent, current system only measures boolean, lacks hesitation pricing layer.
-
-**Space / Mission Control**: Go/No-Go 15-second decision, Challenger case was hesitation then forced change. Microgravity keyboard deletion is intent conflict.
-
-**Mental Health / Book WeiYan**: Client types "I'm fine" but deletes "I actually want to die" with 5.2s pause, current apps only see final text, miss the unsaid. Research shows depression types slower with longer pauses.
-
-*All domains above are rigorously researched via literature and market data, v0.1 protocol layer can be licensed as SDK.*
+### 7. What We Need Next
+- Multi-user dataset (n>20), different input methods (Pinyin, Zhuyin, English)
+- Publish anxiety_score algorithm with false positive rate
+- User study: does a 2-second buffer actually help users feel more autonomous?
 
 ---
 # Himeko-YanRuoWeiYan
-## YanRuoWeiYan 言若微言 - 開源認知作業系統協定 / 《未言》協定版
+## 言若微言 - v0.1.1 原型版
 
 人機共築輝煌的第一步，不是看穿彼此，而是學會尊重的留白。
 
-### 1. 初代驗證 - 真實數據 (2026-10-27)
+### 1. 這是什麼（和不是什麼）
+這是**單人先導原型**，不是標準。
+- 2026-10-27 案例：1 人、1 次輸入、4 次停頓，最長 5213ms
+- 輸入法：注音。停頓包含選字時間，不等於焦慮
+- 5213ms 是觀察到的數據點，不是全人類的「5.2秒標準」
 
-```json
-{
-  "typing_pauses": [
-    {"duration_ms": 1035}, {"duration_ms": 1658},
-    {"duration_ms": 2168}, {"duration_ms": 5213}
-  ],
-  "deletion_count": 4,
-  "anxiety_score": 60,
-  "cognitive_buffer_field": { "state": "absorbing", "label": "承接焦慮中..." }
-}
-```
+**anxiety_score 60 怎麼算的**
+目前是啟發式：`分數 = log(最長停頓) + 刪除率` 加權，無臨床驗證，誤差未知，演算法將公開在 `/docs/anxiety_score.md`
 
-### 2. 為什麼需要姬子？
-- 全透明會衝突，全隱藏會孤立
-- **第三條路：非侵入式意圖完形 + 認知緩衝場**
+### 2. 核心原則修正：使用者擁有的緩衝區，不是監控
+v0.1.0 矛盾：說「非侵入」卻抓刪除的字。
+v0.1.1 修正：
+- **只在本地**：不上傳
+- **預設關閉**：需使用者主動開啟
+- **不存刪除內容**：只存「刪了幾次、停多久」，不存「刪了什麼」，除非使用者主動開啟內容紀錄
+- **可一鍵清除**
 
-### 3. 核心架構
-- `core/` - Intent Gestalt 引擎
-- `api/` - Protocol 層
+### 3. 範圍：v0.1.1 只做一件事
+**寫訊息前的猶豫：「這句要不要傳？」**
+國防、無人機、太空、身心靈危機偵測，全部從主頁移除，移到 `/docs/future_research_ideas.md` 標註為未驗證構想。
 
 ### 4. 快速開始
 ```bash
 git clone https://github.com/Himeko-CodeGeass/Himeko-YanRuoWeiYan
-python typing_demo.py
+python examples/typing_demo.py
 ```
 
-### 5. 授權
-MIT License - 個人、開源免費，商用需商業授權
+### 5. 授權 - v0.1.1 已更改
+- **v0.1.1 之後：Polyform Noncommercial 1.0.0** 個人、研究、非營利開源免費，商用需另購商業授權
+- **v0.1.0 之前：仍為 MIT**
+- **商業授權：聽默文創** 購買連結同上
 
-### 6. 💰 商業授權 - 聽默文創
-**個人 / 開源：MIT 免費**
-**商業：NT$32,000 / ~$999 USD**
-👉 **購買：** https://tingmocreative.lemonsqueezy.com/checkout/buy/5d845d7e-6c55-4b27-9481-d06c62c776ff
+### 6. 下一步需要的證據
+多人資料、不同輸入法、誤判率、使用者自主感研究
 
-### 7. 初代可運用領域 - 經嚴謹調研
-
-**國防 / 軍事指揮**：指揮官 ROE 決策前 5.2 秒停頓刪改，為誤擊避免關鍵訊號。C2 系統研究指出認知負荷過重需抬頭管理。
-
-**無人機 / 無人機群**：1 人管 200 架下，操作員發射前懸停猶豫為有意義人控缺口。研究顯示操作壓力可生理測量，意圖模糊需捕捉。
-
-**農業 / 精準農業**：農民在作物選擇、噴灑時機的猶豫，即使工具好用仍因缺乏支援而猶豫。Notion 五中樞 Potential 捕捉可減少重工。
-
-**天氣預報 / 防災**：預報員發警報前猶豫探索，民眾災前徘徊猶豫，地震預警僅 5-60 秒，猶豫導致傷亡。
-
-**法律 / 合約審查**：律師刪除賠償上限條款為風險預見，法律科技市場 2025 $292億，CLM 占 38%。
-
-**教育 / 自適應學習**：學生假會答對但 A/C 間刪改 3 次停 5.2 秒，為混淆而非掌握。研究顯示 0.5-1s 猶豫 + 1-5s 沉思為認知負荷指標。
-
-**遊戲 / 互動敘事**：遊戲僅記錄選什麼，未記錄怎麼選。道德選擇停 5.2 秒證明在乎，NPC 應吸收此猶豫提升沉浸。
-
-**自駕車 / L3 接管**：駕駛人機互動焦慮，手在方向盤但心不在，現有系統僅測布林值，缺猶豫定價層。
-
-**太空 / 任務控制**：Go/No-Go 15 秒決策，挑戰者號為猶豫後被迫改口案例。微重力下鍵盤刪除為意圖衝突。
-
-**身心靈 / 《未言》**：個案打「我沒事」刪掉「其實我想死」停 5.2 秒，現有 App 僅看最後一句，漏掉未言。研究顯示憂鬱打字更慢、停頓更長。
-
-*以上領域均經文獻與市場數據嚴謹調研，初代 v0.1 協議層可直接作為 SDK 授權接入。*
-
-*Powered by Respectful Ambiguity Protocol - The 5.2s standard - 由聽默文創 Tingmo Creative 營運*
+*Powered by Respectful Buffer - Early Prototype - Tingmo Creative*
