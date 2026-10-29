@@ -1,21 +1,50 @@
-MIT License
+Polyform Noncommercial License 1.0.0
 
-Copyright (c) 2026 Himeko-CodeGeass Himeko-Cognitive-OS
+Acceptance
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+In order to get any license under these terms, you must agree to them as both
+strictly enforced and strictly applied in all cases.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Copyright
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Copyright (c) 2026 Tingmo Creative (聽默文創) - Jizheng
+
+Noncommercial Purposes
+
+You may use, reproduce, modify and distribute the Software for any
+Noncommercial Purpose.
+
+Noncommercial Purpose means any purpose that is not a Commercial Purpose.
+
+Commercial Purpose means use for direct commercial advantage or monetary
+compensation.
+
+Examples of Commercial Purpose (requires separate Commercial License):
+- Use in a closed-source product sold to customers
+- Use in a SaaS product that charges users
+- Use by a for-profit company in its internal operations where the Software
+  provides business value
+
+Examples of Noncommercial Purpose (allowed under this license):
+- Personal use, research, education
+- Non-commercial open-source projects
+
+Commercial License
+
+For any Commercial Purpose, you must purchase a Commercial License from:
+
+Tingmo Creative
+Store: https://tingmocreative.lemonsqueezy.com
+Product: Himeko-YanRuoWeiYan Commercial License
+Checkout: https://tingmocreative.lemonsqueezy.com/checkout/buy/5d845d7e-6c55-4b27-9481-d06c62c776ff
+Contact: jizheng.contact@proton.me
+
+Historical MIT License
+
+Commits on or before 2026-10-28 (<= commit 123) remain under MIT License as
+originally published. This Polyform Noncommercial License applies to commits
+after that date (v0.1.1 and later).
+
+Disclaimer
+
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND.
